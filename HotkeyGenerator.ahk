@@ -10,18 +10,20 @@ SendMode, Input
 ; Todo: Validate the configuration file
 ;       - Check if the syntax is correct
 ;       - Check if the hotkeys are valid
+;       - Check if the function wrappers exist
 ;       - Check if the functions exist
 ;       - Check if the parameters are valid
 
 ; Todo: Check if the configuration is updated everytime a hotkey is called
 ;       - if the updated config file is invalid, keep the old config and show a warning
-;       - if the updated config file is valid, update the config without restarting the script,
-;               register the pressed hotkey if still relevant
+;       - when the config is updated, register the pressed hotkey if still relevant
+
+; Todo: Error handling in functions passed back to the CommonWrapper
 
 ; Load the functions related to the keymap
 #Include %A_ScriptDir%\config\Functions.ahk
 ; Load the keymap configuration
-CONFIG_FILE := A_ScriptDir . "\config\KeyMap.json"
+global CONFIG_FILE := A_ScriptDir . "\config\KeyMap.json"
 
 if (!FileExist(CONFIG_FILE))
 {
@@ -29,49 +31,71 @@ if (!FileExist(CONFIG_FILE))
     ExitApp
 }
 
-CommonWrapper(funcBind, params*) {
-    ; Pre-processing code here...
+; Create a dictionary to store the hotkey-function pairs
+global KeyMap := {}
+global last_config_mod_time := 0
 
-    ; Call the actual function
-    Result := funcBind.Call(params*) 
+ParseKeymapFunction()
+FileGetTime, last_config_mod_time, %CONFIG_FILE%, M
 
-    ; Return the result
+CommonWrapper(funcName, params*) {
+    CheckForConfigUpdate()
+    ; Create a function object
+    func := Func(funcName)
+
+    Result := func.Call(params*)
     return Result
 }
 
-; check when the config file was last modified
-FileGetTime, last_config_mod_time, %CONFIG_FILE_PATH%, M
+ParseKeymapFunction() {
+    ; Read the config file
+    FileRead, configFileContent, %CONFIG_FILE%
+    if (ErrorLevel) {
+        MsgBox, 0, Error, Could not open configuration file.
+        ExitApp
+    }
 
+    ; Parse the JSON config file
+    hotkeyConfig := JSON.Load(configFileContent)
 
-; Create a dictionary to store the hotkey-function pairs
-hotkeyDict := {}
+    ; Loop over the hotkey configurations
+    for index, config in hotkeyConfig.hotkeys
+    {
+        ; Create a wrapper function with the function name and parameters
+        wrapperBinding := Func("CommonWrapper").Bind(config.function, config.parameters*)
+        ; Add the hotkey to the hotkey dictionary
+        KeyMap[config.hotkey] := wrapperBinding
+    }
 
-; Read the config file
-FileRead, configFileContent, %CONFIG_FILE%
-if (ErrorLevel) {
-    MsgBox, 0, Error, Could not open configuration file.
-    ExitApp
+    ; Bind the hotkeys to the function with the configured parameters
+    for key, value in KeyMap
+    {   
+        ; Create a new hotkey with the key and bound function
+        hk := new Hotkey(key), hk.onEvent(value)
+    }
+    return
 }
 
-; Parse the JSON config file
-hotkeyConfig := JSON.Load(configFileContent)
+CheckForConfigUpdate() {
+    ; Get the current config file modified time
+    FileGetTime, curr_config_mod_time, %CONFIG_FILE%, M
 
-; Loop over the hotkey configurations
-for index, config in hotkeyConfig.hotkeys
-{
-    ; Create a function object with the bound parameters
-    actualFuncBinding := Func(config.function).Bind(config.parameters*)
-    funcBinding := Func("CommonWrapper").Bind(actualFuncBinding)
+    ; Check if the config file has been modified since the last check
+    if (curr_config_mod_time != last_config_mod_time)
+    {
+        ParseKeymapFunction()
+        last_config_mod_time := curr_config_mod_time
 
-    ; Add the hotkey to the hotkey dictionary
-    hotkeyDict[config.hotkey] := funcBinding
+        ; Show the tooltip in the bottom right corner
+        ToolTip, Config Updated
+        SoundPlay *-1
+
+        ; Remove the tooltip after 3 seconds
+        SetTimer, RemoveToolTip, -1000
+    }
 }
 
-; Bind the hotkeys to the function with the configured parameters
-for key, value in hotkeyDict
-{   
-    ; Create a new hotkey with the key and bound function
-    hk := new Hotkey(key), hk.onEvent(value)
-}
-
+RemoveToolTip:
+    ; Remove the tooltip and the GUI
+    ToolTip
 return
