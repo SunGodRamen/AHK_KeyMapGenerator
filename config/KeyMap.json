@@ -1,14 +1,60 @@
 {
-  "hotkeys": [
-      {
-          "hotkey": "^!a",
-          "function": "Function1",
-          "parameters": ["param_a", "param_b"]
-      },
-      {
-          "hotkey": "^!b",
-          "function": "Function2",
-          "parameters": ["param_c", "param_d"]
-      }
-  ]
+    "hotkeys": [
+        {
+            "hotkey": "^!c",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                "ahk_exe chrome.exe ahk_class Chrome_WidgetWin_1"
+            ]
+        },
+        {
+            "hotkey": "^!v",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Users\\avons\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+                "ahk_exe Code.exe ahk_class Chrome_WidgetWin_1"
+            ]
+        },
+        {
+            "hotkey": "^!e",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Windows\\explorer.exe",
+                "ahk_exe explorer.exe ahk_class CabinetWClass"
+            ]
+        },
+        {
+            "hotkey": "^!l",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Program Files\\WindowsApps\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.2.47.0_x64__79rhkp1fndgsc\\ubuntu2204.exe",
+                "ahk_exe WindowsTerminal.exe ahk_class CASCADIA_HOSTING_WINDOW_CLASS"
+            ]
+        },
+        {
+            "hotkey": "^!q",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Program Files\\QMK_MSYS\\shell_connector.cmd",
+                "ahk_exe WindowsTerminal.exe ahk_class CASCADIA_HOSTING_WINDOW_CLASS"
+            ]
+        },
+        {
+            "hotkey": "^!b",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Program Files\\Git\\git-cmd.exe",
+                "ahk_exe WindowsTerminal.exe ahk_class CASCADIA_HOSTING_WINDOW_CLASS"
+            ]
+        },
+        {
+            "hotkey": "^!+w",
+            "function": "ProcessWindowManager",
+            "parameters": [
+                "C:\\Program Files\\AutoHotkey\\WindowSpy.ahk",
+                "ahk_exe AutoHotkey.exe ahk_class AutoHotkeyGUI"
+            ]
+        }
+    ]
 }
