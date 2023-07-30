@@ -1,0 +1,14 @@
+{
+  "hotkeys": [
+      {
+          "hotkey": "^!a",
+          "function": "Function1",
+          "parameters": ["param1", "param2"]
+      },
+      {
+          "hotkey": "^!b",
+          "function": "Function2",
+          "parameters": ["param3", "param4"]
+      }
+  ]
+}
