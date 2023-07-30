@@ -29,6 +29,16 @@ if (!FileExist(CONFIG_FILE))
     ExitApp
 }
 
+CommonWrapper(funcBind, params*) {
+    ; Pre-processing code here...
+
+    ; Call the actual function
+    Result := funcBind.Call(params*) 
+
+    ; Return the result
+    return Result
+}
+
 ; check when the config file was last modified
 FileGetTime, last_config_mod_time, %CONFIG_FILE_PATH%, M
 
@@ -50,7 +60,9 @@ hotkeyConfig := JSON.Load(configFileContent)
 for index, config in hotkeyConfig.hotkeys
 {
     ; Create a function object with the bound parameters
-    funcBinding := Func("Wrapper_" . config.function).Bind(config.parameters*)
+    actualFuncBinding := Func(config.function).Bind(config.parameters*)
+    funcBinding := Func("CommonWrapper").Bind(actualFuncBinding)
+
     ; Add the hotkey to the hotkey dictionary
     hotkeyDict[config.hotkey] := funcBinding
 }
