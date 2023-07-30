@@ -1,3 +1,4 @@
+;HotkeyGenerator.ahk
 #NoEnv
 #SingleInstance force
 SetWorkingDir % A_ScriptDir
@@ -28,7 +29,6 @@ hotkeyConfig := JSON.Load(configFileContent)
 for index, config in hotkeyConfig.hotkeys
 {
     ; Create a function object with the bound parameters
-    MsgBox, % config.parameters*
     funcBinding := Func(config.function).Bind(config.parameters*)
     ; Add the hotkey to the hotkey dictionary
     hotkeyDict[config.hotkey] := funcBinding

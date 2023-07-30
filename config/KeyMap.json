@@ -3,12 +3,12 @@
       {
           "hotkey": "^!a",
           "function": "Function1",
-          "parameters": ["param1", "param2"]
+          "parameters": ["param_a", "param_b"]
       },
       {
           "hotkey": "^!b",
           "function": "Function2",
-          "parameters": ["param3", "param4"]
+          "parameters": ["param_c", "param_d"]
       }
   ]
 }
