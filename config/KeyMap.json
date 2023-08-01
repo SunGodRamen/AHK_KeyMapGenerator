@@ -1,6 +1,11 @@
 {
     "hotkeys": [
         {
+            "hotkey": "#!F1",
+            "function": "RestartKeyMapGenerator",
+            "parameters": []
+        },
+        {
             "hotkey": "^!c",
             "function": "ProcessWindowManager",
             "parameters": [
@@ -71,6 +76,11 @@
                 "mullvad.exe",
                 "connect"
             ]
+        },
+        {
+            "hotkey": "^+!v",
+            "function": "PasteAsTyped",
+            "parameters": []
         }
     ]
 }
