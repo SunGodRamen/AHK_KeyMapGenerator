@@ -55,6 +55,22 @@
                 "C:\\Program Files\\AutoHotkey\\WindowSpy.ahk",
                 "ahk_exe AutoHotkey.exe ahk_class AutoHotkeyGUI"
             ]
+        },
+        {
+            "hotkey": "^!m",
+            "function": "RunExecutable",
+            "parameters": [
+                "mullvad.exe",
+                "disconnect"
+            ]
+        },
+        {
+            "hotkey": "^!+m",
+            "function": "RunExecutable",
+            "parameters": [
+                "mullvad.exe",
+                "connect"
+            ]
         }
     ]
 }

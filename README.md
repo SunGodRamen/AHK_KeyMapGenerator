@@ -11,16 +11,16 @@ KeyMapGenerator is an advanced hotkey configuration tool for Windows, developed 
 ## Directory Structure
 
 The project has the following directory structure:
-
 .
 ├── HotkeyGenerator.ahk  # The main AutoHotkey script file
 ├── config
-│   ├── Functions.ahk    # Contains the AutoHotkey functions that will be mapped to hotkeys
+│   ├── Functions.ahk    # Contains the wrapper functions that will be mapped to hotkeys
 │   └── KeyMap.json      # JSON file for hotkey configurations
-└── lib
-    ├── Hotkey.ahk       # A library file for handling hotkeys
-    └── JSON.ahk         # A library file for handling JSON operations
-
+├── lib
+│   ├── Hotkey.ahk       # A library file for handling hotkeys
+│   └── JSON.ahk         # A library file for handling JSON operations
+└─ features
+    └── ...              # AutoHotkey scripts that are called by the wrapper functions
 ## Usage
 1. Clone the repository to your local machine.
 2. Modify the config/KeyMap.json file according to your requirements. The hotkey field takes the key combination for the hotkey, function takes the name of the function to be executed when the hotkey is triggered, and parameters takes a list of parameters to be passed to the function.
