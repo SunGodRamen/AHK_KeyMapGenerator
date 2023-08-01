@@ -31,6 +31,11 @@ if (!FileExist(CONFIG_FILE))
     ExitApp
 }
 
+IfExist, A_ScriptDir. "\cache\pid.ini"
+    FileDelete, A_ScriptDir . "\cache\pid.ini"
+
+FileAppend, % A_ScriptPID, A_ScriptDir . "\cache\pid.ini"
+
 ; Create a dictionary to store the hotkey-function pairs
 global KeyMap := {}
 global last_config_mod_time := 0
