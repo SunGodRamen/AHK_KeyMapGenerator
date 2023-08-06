@@ -13,19 +13,21 @@ GetChromeWindowTabState() {
   ; Step 3: Locate the latest downloaded JSON file
   downloadsFolder := "C:\Users\avons\Downloads\"
   filePattern := "tab_names*.json"
-  FileGetTime, latestTime, %downloadsFolder%%filePattern%
-  latestFile := ""
 
+  maxNumber := -1
   Loop, %downloadsFolder%%filePattern%
   {
-    FileGetTime, thisTime, %A_LoopFileFullPath%
-    if (thisTime > latestTime)
-    {
-        latestTime := thisTime
-        latestFile := A_LoopFileFullPath
-    }
+      ; Extract the number from the filename pattern "tab_names (n).json"
+      fileNumber := RegExReplace(A_LoopFileName, "tab_names \((\d+)\).json", "$1")
+      if (fileNumber = "") {  ; this means it's probably the "tab_names.json" file without any number
+          fileNumber := 0
+      }
+      if (fileNumber > maxNumber) {
+          maxNumber := fileNumber
+          latestFile := A_LoopFileFullPath
+      }
   }
-
+  
   ; Read the contents of the JSON file
   fileContent := ""
   FileRead, fileContent, % latestFile
@@ -98,8 +100,5 @@ YTDownloadActiveTab() {
         outputFormat := "C:\Users\avons\Downloads\%(title)s.%(ext)s"
         ubuntuPath := "C:\Program Files\WindowsApps\CanonicalGroupLimited.Ubuntu22.04LTS_2204.2.47.0_x64__79rhkp1fndgsc\ubuntu2204.exe"
         Run, %ubuntuPath% youtube-dl  %activeTabURL% -o %outputFormat%
-    }
-    else {
-        MsgBox, No active tab found for youtube-dl!
     }
 }
