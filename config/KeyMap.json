@@ -1,7 +1,7 @@
 {
     "hotkeys": [
         {
-            "hotkey": "#!F1",
+            "hotkey": "#+f",
             "function": "RestartKeyMapGenerator",
             "parameters": []
         },
@@ -81,6 +81,11 @@
             "hotkey": "^+!v",
             "function": "PasteAsTyped",
             "parameters": []
+        },
+        {
+            "hotkey": "^!y",
+            "function": "YTDownloadActiveTab",
+            "parameters": [] 
         }
     ]
 }

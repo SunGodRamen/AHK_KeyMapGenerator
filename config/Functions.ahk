@@ -27,6 +27,11 @@ Wrapper_RunExecutable(params*) {
 #Include %A_ScriptDir%\features\PasteAsTyped.ahk
 
 Wrapper_PasteAsTyped(params*) {
-    MsgBox, PasteAsTyped
     PasteAsTyped()
+}
+
+#Include %A_ScriptDir%\features\ChromeTabManager.ahk
+
+Wrapper_YTDownloadActiveTab(params*) {
+    YTDownloadActiveTab()
 }
